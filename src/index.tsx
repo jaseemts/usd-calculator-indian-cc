@@ -1,4 +1,11 @@
-import { Form, ActionPanel, Action, showToast, Toast, Clipboard } from "@raycast/api";
+import {
+  Form,
+  ActionPanel,
+  Action,
+  showToast,
+  Toast,
+  Clipboard,
+} from "@raycast/api";
 import { useState } from "react";
 import fetch from "node-fetch";
 
@@ -32,8 +39,10 @@ export default function Command(): JSX.Element {
       }
 
       // Fetch exchange rate from Wise API
-      const response = await fetch('https://wise.com/rates/history+live?source=USD&target=INR&length=1');
-      const data = await response.json() as WiseRateResponse[];
+      const response = await fetch(
+        "https://wise.com/rates/history+live?source=USD&target=INR&length=1",
+      );
+      const data = (await response.json()) as WiseRateResponse[];
       const usdInrExchangeRate = data[0].value;
 
       // Calculate amounts
@@ -48,7 +57,7 @@ export default function Command(): JSX.Element {
         foreignExchangeFee,
         gst,
         finalAmount,
-        exchangeRate: usdInrExchangeRate
+        exchangeRate: usdInrExchangeRate,
       });
 
       // Copy to clipboard and notify
@@ -61,7 +70,7 @@ export default function Command(): JSX.Element {
       await showToast({
         style: Toast.Style.Failure,
         title: "Error",
-        message: String(error)
+        message: String(error),
       });
     } finally {
       setIsLoading(false);
@@ -71,7 +80,7 @@ export default function Command(): JSX.Element {
   function getBreakdown(): string {
     if (!result) return "Includes forex markup fee (3.75%) and GST (18%)";
 
-    const formatINR = (amount: number) => `₹${amount.toFixed(2)}`;
+    const formatINR = (amount: number): string => `₹${amount.toFixed(2)}`;
 
     return `💱 1 USD = ${formatINR(result.exchangeRate)}
 
@@ -103,4 +112,4 @@ Amount copied to clipboard • Exchange rates from Wise`;
       <Form.Description text={getBreakdown()} />
     </Form>
   );
-} 
+}

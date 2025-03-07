@@ -25,7 +25,7 @@ declare module "@raycast/api" {
 
   // Action Components
   export const ActionPanel: React.FC<ActionPanelProps>;
-  
+
   export const Action: {
     SubmitForm: React.FC<ActionSubmitFormProps<any>>;
   };
@@ -42,13 +42,13 @@ declare module "@raycast/api" {
   // Toast
   export const Toast: {
     Style: {
-      Success: 'success';
-      Failure: 'failure';
+      Success: "success";
+      Failure: "failure";
     };
   };
 
   export interface ToastOptions {
-    style: typeof Toast.Style[keyof typeof Toast.Style];
+    style: (typeof Toast.Style)[keyof typeof Toast.Style];
     title: string;
     message?: string;
   }
@@ -59,4 +59,4 @@ declare module "@raycast/api" {
   export const Clipboard: {
     copy(text: string): Promise<void>;
   };
-} 
+}
