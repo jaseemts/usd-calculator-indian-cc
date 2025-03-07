@@ -1,39 +1,47 @@
 # USD Calculator for Indian Credit Cards
 
-A Raycast extension to calculate the total cost in INR for USD purchases made with Indian credit cards, including forex markup fees and GST.
+A Raycast extension that calculates the total INR cost for USD purchases made with Indian credit cards, including forex markup fees and GST.
 
 ## Features
 
-- Real-time USD to INR conversion using Wise exchange rates
-- Includes 3.75% foreign exchange markup fee
-- Calculates 18% GST on the forex fee
-- Shows detailed breakdown of:
-  - Base amount in INR
-  - Forex markup fee
-  - GST on forex fee
-  - Total amount
-- Automatically copies the final amount to clipboard
+- Convert USD amounts to INR using current exchange rates
+- Calculate forex markup fees (typically around 3.5%)
+- Add GST on forex fees (18%)
+- Show detailed breakdown of all charges
+- Simple and intuitive interface
+
+## Installation
+
+1. Make sure you have [Raycast](https://raycast.com/) installed
+2. Install the extension from the Raycast Store
+3. Use the command "USD Calculator for Indian CC" to start calculating
 
 ## Usage
 
-1. Open Raycast
-2. Search for "Calculate USD to INR"
-3. Enter the USD amount
-4. Get instant calculation with detailed breakdown of all fees
-5. The final amount is automatically copied to your clipboard
+1. Enter the USD amount you want to convert
+2. The extension will automatically:
+   - Convert the amount to INR using current exchange rates
+   - Add the forex markup fee
+   - Calculate GST on the forex fee
+   - Show you the total amount in INR
 
-## Example
+## Development
 
-For a $100 USD purchase, you'll see:
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/usd-calculator-indian-cc.git
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
-$100 = ₹8,500.00
-💵 Base Amount: ₹8,250.00
-💳 Forex Fee (3.75%): ₹309.37
-🏷️ GST (18%): ₹55.69
-💰 Total: ₹8,500.00
-```
-(amounts are examples, actual rates will vary)
 
-## Author
+## Contributing
 
-Created by [@jaseem_ts](https://raycast.com/jaseem_ts) 
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT 
