@@ -9,6 +9,7 @@ A Raycast extension that calculates the total INR cost for USD purchases made wi
 - Add GST on forex fees (18%)
 - Show detailed breakdown of all charges
 - Simple and intuitive interface
+- Automatically copy final INR amount to clipboard
 
 ## Installation
 
@@ -24,6 +25,7 @@ A Raycast extension that calculates the total INR cost for USD purchases made wi
    - Add the forex markup fee
    - Calculate GST on the forex fee
    - Show you the total amount in INR
+   - Copy the final INR amount to your clipboard for easy use
 
 ## Development
 
