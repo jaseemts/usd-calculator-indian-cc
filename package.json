@@ -1,6 +1,6 @@
 {
   "name": "usd-calculator-indian-cc",
-  "title": "Usd Calculator for Indian Credit Cards",
+  "title": "USD Calculator for Indian Credit Cards",
   "version": "1.0.0",
   "description": "Calculate total INR cost for credit card purchases in USD, including forex fees and GST",
   "icon": "command-icon.png",
@@ -12,7 +12,7 @@
   "commands": [
     {
       "name": "index",
-      "title": "Calculate Usd to Inr",
+      "title": "Calculate USD to INR",
       "description": "Calculate total INR cost for credit card purchases in USD, including forex fees and GST",
       "mode": "view",
       "icon": "command-icon.png"
@@ -20,13 +20,12 @@
   ],
   "dependencies": {
     "@raycast/api": "^1.55.0",
-    "node-fetch": "^2.6.9",
-    "react": "18.2.0"
+    "@raycast/utils": "^1.19.1",
+    "node-fetch": "^2.6.9"
   },
   "devDependencies": {
     "@types/node": "~20.8.0",
     "@types/node-fetch": "^2.6.9",
-    "@types/react": "18.2.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.57.1",

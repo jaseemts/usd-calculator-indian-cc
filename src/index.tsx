@@ -1,17 +1,7 @@
-import {
-  Form,
-  ActionPanel,
-  Action,
-  showToast,
-  Toast,
-  Clipboard,
-} from "@raycast/api";
+import { Form, ActionPanel, Action, showToast, Toast, Clipboard } from "@raycast/api";
+import { showFailureToast } from "@raycast/utils";
 import { useState } from "react";
 import fetch from "node-fetch";
-
-interface CommandForm {
-  usdAmount: string;
-}
 
 interface WiseRateResponse {
   value: number;
@@ -26,11 +16,15 @@ interface CalculationResult {
   exchangeRate: number;
 }
 
-export default function Command(): JSX.Element {
+interface FormValues {
+  usdAmount: string;
+}
+
+export default function Command() {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleSubmit(values: CommandForm): Promise<void> {
+  async function handleSubmit(values: FormValues) {
     try {
       setIsLoading(true);
       const usdAmount = parseFloat(values.usdAmount);
@@ -38,14 +32,25 @@ export default function Command(): JSX.Element {
         throw new Error("Please enter a valid USD amount");
       }
 
-      // Fetch exchange rate from Wise API
-      const response = await fetch(
-        "https://wise.com/rates/history+live?source=USD&target=INR&length=1",
-      );
+      let response;
+      try {
+        response = await fetch(
+          "https://wise.com/rates/history+live?source=USD&target=INR&length=1"
+        );
+      } catch (networkError) {
+        throw new Error("Network error: Unable to connect to Wise API.");
+      }
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch exchange rate: ${response.status} ${response.statusText}`);
+      }
+
       const data = (await response.json()) as WiseRateResponse[];
+      if (!Array.isArray(data) || data.length === 0 || typeof data[0].value !== "number") {
+        throw new Error("Invalid exchange rate response from Wise API.");
+      }
       const usdInrExchangeRate = data[0].value;
 
-      // Calculate amounts
       const inrAmount = usdAmount * usdInrExchangeRate;
       const foreignExchangeFee = inrAmount * 0.0375;
       const gst = foreignExchangeFee * 0.18;
@@ -60,18 +65,10 @@ export default function Command(): JSX.Element {
         exchangeRate: usdInrExchangeRate,
       });
 
-      // Copy to clipboard and notify
       await Clipboard.copy(finalAmount.toFixed(2));
-      await showToast({
-        style: Toast.Style.Success,
-        title: "Amount copied to clipboard",
-      });
+      await showToast({ style: Toast.Style.Success, title: "Amount copied to clipboard" });
     } catch (error) {
-      await showToast({
-        style: Toast.Style.Failure,
-        title: "Error",
-        message: String(error),
-      });
+      showFailureToast(error as Error);
     } finally {
       setIsLoading(false);
     }
@@ -79,9 +76,7 @@ export default function Command(): JSX.Element {
 
   function getBreakdown(): string {
     if (!result) return "Includes forex markup fee (3.75%) and GST (18%)";
-
-    const formatINR = (amount: number): string => `₹${amount.toFixed(2)}`;
-
+    const formatINR = (amount: number) => `₹${amount.toFixed(2)}`;
     return `💱 1 USD = ${formatINR(result.exchangeRate)}
 
 $${result.usdAmount} USD Breakdown:
@@ -100,15 +95,11 @@ Amount copied to clipboard • Exchange rates from Wise`;
       isLoading={isLoading}
       actions={
         <ActionPanel>
-          <Action.SubmitForm title="Calculate" onSubmit={handleSubmit} />
+          <Action.SubmitForm title="Convert USD" onSubmit={handleSubmit} />
         </ActionPanel>
       }
     >
-      <Form.TextField
-        id="usdAmount"
-        title="USD Amount"
-        placeholder="Type amount and press Enter"
-      />
+      <Form.TextField id="usdAmount" title="USD Amount" placeholder="Type amount and press Enter" />
       <Form.Description text={getBreakdown()} />
     </Form>
   );

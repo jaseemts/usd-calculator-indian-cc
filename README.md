@@ -31,7 +31,7 @@ A Raycast extension that calculates the total INR cost for USD purchases made wi
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/usd-calculator-indian-cc.git
+git clone https://github.com/jaseemts/usd-calculator-indian-cc.git
 
 # Install dependencies
 npm install
@@ -46,4 +46,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT 
+MIT
